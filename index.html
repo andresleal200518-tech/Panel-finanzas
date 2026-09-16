@@ -203,12 +203,68 @@ form.entry-form .full{grid-column:1/-1;}
 
 footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px; font-style:italic;}
 
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+
+/* ===== Tablet / celular grande ===== */
 @media (max-width:860px){
-  .kpis{grid-template-columns:repeat(2,1fr);}
+  .wrap{padding:36px 18px 90px;}
+  header{margin-bottom:32px; gap:14px;}
+  header h1{font-size:25px;}
+  header .sub{font-size:12.5px;}
+  .month-select{font-size:13px; padding:9px 14px;}
+  .user-bar{margin-left:0; width:100%; justify-content:space-between;}
+
+  .card{padding:18px;}
+
+  .kpis{grid-template-columns:repeat(2,1fr); gap:12px;}
+  .kpi .value{font-size:23px; margin:8px 0 5px;}
+
+  .invest-banner{flex-direction:column; align-items:stretch; gap:18px; padding:22px;}
+  .invest-banner .amount{font-size:28px;}
+  .fund-progress{min-width:0; width:100%;}
+
   .grid-2, .forms-row{grid-template-columns:1fr;}
+  .donut-card{flex-direction:column; align-items:center; text-align:center; gap:16px;}
+  .donut-card .legend{width:100%;}
+  .legend-item{font-size:13px;}
+
+  .goals{grid-template-columns:1fr;}
+  .accounts{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+
   form.entry-form{grid-template-columns:1fr;}
+
+  table{min-width:540px;}
+  th, td{padding:11px 9px; font-size:13px;}
+
+  .pay-item{flex-wrap:wrap; row-gap:8px;}
+  .pay-left{flex-wrap:wrap;}
+  .recent-item{flex-wrap:wrap; row-gap:6px;}
+
+  .note{font-size:12.5px; padding:12px 14px;}
+
   .aurora{display:none;}
 }
+
+/* ===== Celular angosto ===== */
+@media (max-width:480px){
+  .wrap{padding:28px 14px 80px;}
+  header{flex-direction:column; align-items:flex-start;}
+  header h1{font-size:21px;}
+  .month-select{width:100%;}
+
+  .kpis{gap:10px;}
+  .kpi .value{font-size:19px;}
+  .kpi .label{font-size:11px;}
+
+  .invest-banner .amount{font-size:24px;}
+
+  .goal .name, .account-card .name{font-size:14.5px;}
+
+  th, td{padding:9px 7px; font-size:12px;}
+
+  .auth-card{padding:28px 20px;}
+}
+
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1; transform:none; transition:none;}
 }
@@ -268,10 +324,12 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
   <section class="reveal">
     <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div><h2>Reporte mensual</h2></div>
     <div class="card" style="margin-bottom:16px;">
+      <div class="table-scroll">
       <table>
         <thead><tr><th>Mes</th><th>Ingresos</th><th>Gastos</th><th>Utilidad neta</th><th># Ventas</th><th>Margen</th></tr></thead>
         <tbody id="monthlyTable"></tbody>
       </table>
+      </div>
     </div>
     <div class="invest-banner">
       <div>
