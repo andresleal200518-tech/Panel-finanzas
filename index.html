@@ -50,7 +50,7 @@ body{
 .aurora__blob--1{width:520px; height:520px; top:-180px; left:-120px; background:radial-gradient(circle,var(--accent-warm),transparent 70%); opacity:.28;}
 .aurora__blob--2{width:480px; height:480px; top:18%; right:-160px; background:radial-gradient(circle,var(--blue),transparent 70%); opacity:.16;}
 .aurora__blob--3{width:600px; height:600px; bottom:-260px; left:30%; background:radial-gradient(circle,var(--accent),transparent 70%); opacity:.14;}
-.wrap{max-width:1180px; margin:0 auto; padding:56px 28px 120px; position:relative;}
+.wrap{max-width:1180px; margin:0 auto; padding:56px 28px 140px; position:relative;}
 
 @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 .enter{animation:fadeUp .55s var(--ease-out-quint) both;}
@@ -119,8 +119,9 @@ h2 .tag{font-family:var(--font-body); font-style:italic; font-weight:400; color:
 .donut-hole{width:132px; height:132px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative;}
 .donut-hole::after{content:""; position:absolute; width:74px; height:74px; background:var(--bg-2); border-radius:50%; transition:background .3s; box-shadow:inset 0 0 0 1px var(--line);}
 .legend{flex:1;}
-.legend-item{display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px dashed var(--line); font-size:13.5px;}
+.legend-item{display:flex; justify-content:space-between; align-items:center; padding:7px 6px; border-bottom:1px dashed var(--line); font-size:13.5px; cursor:pointer; border-radius:8px; transition:background .2s var(--ease-soft), padding-left .2s var(--ease-soft);}
 .legend-item:last-child{border-bottom:none;}
+.legend-item:hover, .legend-item:focus-visible{background:rgba(255,255,255,.04); padding-left:10px; outline:none;}
 .legend-dot{width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:8px;}
 .legend-name{display:flex; align-items:center; color:var(--ink);}
 .legend-val{color:var(--ink-soft); font-variant-numeric:tabular-nums; font-family:var(--font-mono); font-size:12.5px;}
@@ -171,7 +172,7 @@ tr.table-row:hover td{background:rgba(255,255,255,.02);}
 .forms-row{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
 form.entry-form{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 form.entry-form .full{grid-column:1/-1;}
-.entry-form label{font-size:11.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:5px;}
+.entry-form label{font-size:11.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; justify-content:space-between; margin-bottom:5px;}
 .entry-form input, .entry-form select{
   width:100%; font-family:var(--font-body); font-size:14px; padding:10px 12px;
   border:1px solid var(--line); border-radius:9px; background:rgba(255,255,255,.03); color:var(--ink);
@@ -290,6 +291,98 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
 .user-bar{display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ink-soft); margin-left:auto;}
 .user-bar button{background:none; border:1px solid var(--line-strong); color:var(--ink-soft); border-radius:999px; padding:6px 12px; font-size:12px; cursor:pointer; font-family:var(--font-body); transition:border-color .2s var(--ease-soft), color .2s var(--ease-soft);}
 .user-bar button:hover{border-color:var(--accent); color:var(--accent);}
+
+/* ===== Tabs (Inicio / Inversiones / Reportes / Consejos) ===== */
+.tab-view{ }
+.tab-fade{animation:fadeUp .45s var(--ease-out-quint);}
+
+.bottom-nav{
+  position:fixed; left:50%; bottom:0; transform:translateX(-50%); width:100%; max-width:560px;
+  display:flex; justify-content:space-around; align-items:center;
+  background:rgba(13,14,17,.86); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--line); border-radius:20px 20px 0 0;
+  padding:10px 8px calc(10px + env(safe-area-inset-bottom)); z-index:40;
+  box-shadow:0 -10px 40px -20px rgba(0,0,0,.6);
+}
+.bn-item{
+  background:none; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px;
+  font-family:var(--font-body); font-size:10.5px; cursor:pointer; padding:7px 12px; border-radius:14px; flex:1;
+  transition:color .2s var(--ease-soft), background .2s var(--ease-soft), transform .2s var(--ease-spring);
+}
+.bn-item svg{width:21px; height:21px; stroke-width:1.8; transition:filter .2s var(--ease-soft);}
+.bn-item:active{transform:scale(.92);}
+.bn-item:hover{color:var(--ink-soft);}
+.bn-item.is-active{color:var(--accent);}
+.bn-item.is-active svg{filter:drop-shadow(0 0 8px rgba(216,201,163,.55));}
+
+/* ===== Reportes: sub-tabs + gráfica ===== */
+.report-tabs{display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;}
+.report-tab{
+  font-family:var(--font-body); font-size:13px; padding:9px 16px; border-radius:999px; border:1px solid var(--line-strong);
+  background:var(--card); color:var(--ink-soft); cursor:pointer; transition:all .2s var(--ease-soft);
+}
+.report-tab:hover{border-color:var(--accent); color:var(--ink);}
+.report-tab.is-active{background:linear-gradient(135deg,var(--accent),var(--accent-warm)); color:#1a1610; border-color:transparent; font-weight:600;}
+.chart-card{padding:26px;}
+.chart-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; gap:12px; flex-wrap:wrap;}
+.chart-wrap{position:relative; height:260px;}
+.chart-highlights{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
+.chart-hl{display:flex; flex-direction:column; gap:4px; padding:13px 15px; border-radius:14px; font-size:12px;}
+.chart-hl.good{background:var(--green-soft); color:var(--green);}
+.chart-hl.bad{background:var(--red-soft); color:var(--red);}
+.chart-hl b{font-family:var(--font-display); font-size:15.5px; color:var(--ink); font-weight:600;}
+.chart-hl .mono-num{font-family:var(--font-mono); font-weight:600;}
+
+/* ===== Tips de inversión ===== */
+.tips-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px;}
+.tip-card h3{font-family:var(--font-display); font-size:16px; margin:14px 0 8px; color:var(--ink); font-weight:600;}
+.tip-card p{font-size:13.5px; color:var(--ink-soft); line-height:1.6; margin:0;}
+
+/* ===== Cuentas: eliminar / agregar ===== */
+.account-card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.add-card{display:flex; align-items:center; justify-content:center; border-style:dashed; cursor:pointer; color:var(--ink-soft); min-height:120px; transition:border-color .2s var(--ease-soft), color .2s var(--ease-soft);}
+.add-card:hover{border-color:var(--accent); color:var(--accent);}
+.add-card-inner{font-size:13.5px; font-weight:500;}
+
+/* ===== Modal genérico (catálogos) ===== */
+.modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.55); backdrop-filter:blur(2px); display:none; align-items:center; justify-content:center; z-index:70; padding:20px;}
+.modal-backdrop.is-open{display:flex;}
+.modal-sheet{max-width:420px; width:100%; padding:26px; max-height:80vh; overflow-y:auto;}
+.modal-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;}
+.modal-close{background:none; border:1px solid var(--line-strong); color:var(--ink-soft); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px; flex-shrink:0; transition:border-color .2s var(--ease-soft), color .2s var(--ease-soft);}
+.modal-close:hover{border-color:var(--accent); color:var(--accent);}
+.catalog-list{display:flex; flex-direction:column; gap:6px; margin-bottom:16px; max-height:280px; overflow-y:auto;}
+.catalog-item{display:flex; justify-content:space-between; align-items:center; padding:9px 12px; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:10px; font-size:13.5px; color:var(--ink);}
+.catalog-add{display:flex; gap:8px;}
+.catalog-add input{flex:1; font-family:var(--font-body); font-size:14px; padding:10px 12px; border:1px solid var(--line); border-radius:9px; background:rgba(255,255,255,.03); color:var(--ink);}
+
+.cat-edit-btn{background:none; border:none; color:var(--ink-soft); cursor:pointer; padding:2px 4px; border-radius:6px; display:inline-flex; transition:color .2s var(--ease-soft), background .2s var(--ease-soft);}
+.cat-edit-btn svg{width:13px; height:13px;}
+.cat-edit-btn:hover{color:var(--accent); background:var(--accent-soft);}
+
+/* ===== Sheet de detalle de categoría ===== */
+.sheet-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.55); backdrop-filter:blur(2px); opacity:0; pointer-events:none; transition:opacity .3s var(--ease-soft); z-index:60;}
+.sheet-backdrop.is-open{opacity:1; pointer-events:auto;}
+.detail-sheet{
+  position:fixed; left:50%; bottom:0; transform:translate(-50%, 100%); width:100%; max-width:560px;
+  max-height:78vh; overflow-y:auto; background:var(--bg-2); border:1px solid var(--line-strong);
+  border-radius:24px 24px 0 0; padding:14px 24px 28px; box-shadow:var(--shadow-card); z-index:61;
+  transition:transform .4s var(--ease-out-expo);
+}
+.detail-sheet.is-open{transform:translate(-50%, 0);}
+.detail-sheet-handle{width:40px; height:4px; background:var(--line-strong); border-radius:99px; margin:0 auto 14px;}
+.detail-sheet-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;}
+.detail-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px;}
+.detail-stat{background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:12px; padding:10px; text-align:center;}
+.detail-stat .dlabel{display:block; font-size:10px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;}
+.detail-stat .dval{font-family:var(--font-mono); font-weight:600; font-size:14px; color:var(--ink);}
+.detail-sheet-list{max-height:280px; overflow-y:auto;}
+
+@media (max-width:480px){
+  .detail-stats{grid-template-columns:repeat(2,1fr);}
+  .chart-wrap{height:220px;}
+  .chart-highlights{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -328,34 +421,11 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
 
   <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg><span id="syncNote">Septiembre ya está cargado con tus movimientos reales — anota nuevos ingresos y gastos aquí abajo y todo — gráficas, reportes y cuentas — se recalcula al instante.</span></div>
 
-  <section class="reveal">
-    <div class="kpis" id="kpis"></div>
-  </section>
+  <!-- ===== TAB: INICIO ===== -->
+  <div class="tab-view" id="tabInicio" data-tab="inicio">
 
   <section class="reveal">
-    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div><h2>Reporte mensual</h2></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Mes</th><th>Ingresos</th><th>Gastos</th><th>Utilidad neta</th><th># Ventas</th><th>Margen</th></tr></thead>
-        <tbody id="monthlyTable"></tbody>
-      </table>
-      </div>
-    </div>
-    <div class="invest-banner">
-      <div>
-        <div class="formula" id="investFormula"></div>
-        <div class="amount" id="investAmount">$0</div>
-      </div>
-      <div class="fund-progress">
-        <div class="row"><span>Fondo de Reserva</span><span id="fundLabel">$0 / $0</span></div>
-        <div class="bar"><span id="fundBar" style="width:0%"></span></div>
-        <div class="fund-edit">
-          <input type="number" id="fundCurrent" placeholder="Actual" title="Monto actual del fondo">
-          <input type="number" id="fundTarget" placeholder="Meta" title="Meta del fondo">
-        </div>
-      </div>
-    </div>
+    <div class="kpis" id="kpis"></div>
   </section>
 
   <section class="reveal">
@@ -375,8 +445,6 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
         </div>
       </div>
     </div>
-    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><h2>Metas de inversión</h2></div>
-    <div class="goals" id="goals"></div>
   </section>
 
   <section class="reveal">
@@ -396,8 +464,8 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
           <div class="full"><label>Concepto</label><input type="text" id="inConcepto" required></div>
           <div><label>Fecha</label><input type="date" id="inFecha" required></div>
           <div><label>Monto</label><input type="number" id="inMonto" step="0.01" min="0" required></div>
-          <div><label>Fuente</label>
-            <select id="inFuente"><option>Dream Studio</option><option>Noir</option><option>Cámaras</option><option>Otro</option></select>
+          <div><label>Fuente <button type="button" class="cat-edit-btn" data-open-catalog="ingreso" title="Agregar o quitar fuentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></button></label>
+            <select id="inFuente"></select>
           </div>
           <div><label>Cuenta</label><select id="inCuenta"></select></div>
           <button type="submit" class="submit-btn">Agregar ingreso</button>
@@ -409,8 +477,8 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
           <div class="full"><label>Concepto</label><input type="text" id="exConcepto" required></div>
           <div><label>Fecha</label><input type="date" id="exFecha" required></div>
           <div><label>Monto</label><input type="number" id="exMonto" step="0.01" min="0" required></div>
-          <div><label>Categoría</label>
-            <select id="exCategoria"><option>Comida</option><option>Transporte</option><option>Gastos Personales</option><option>Equipo</option><option>Tarjetas de Crédito</option><option>Ahorro</option><option>Marketing</option><option>Hunter</option><option>Otro</option></select>
+          <div><label>Categoría <button type="button" class="cat-edit-btn" data-open-catalog="gasto" title="Agregar o quitar categorías"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></button></label>
+            <select id="exCategoria"></select>
           </div>
           <div><label>Cuenta</label><select id="exCuenta"></select></div>
           <button type="submit" class="submit-btn">Agregar gasto</button>
@@ -443,15 +511,140 @@ footer{text-align:center; color:var(--muted); font-size:12.5px; margin-top:70px;
     </div>
   </section>
 
+  </div>
+  <!-- ===== /TAB: INICIO ===== -->
+
+  <!-- ===== TAB: INVERSIONES ===== -->
+  <div class="tab-view" id="tabInversiones" data-tab="inversiones" hidden>
+
+  <section class="reveal is-visible">
+    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><h2>Inversiones</h2></div>
+    <div class="invest-banner" style="margin-bottom:16px;">
+      <div>
+        <div class="formula" id="investFormula"></div>
+        <div class="amount" id="investAmount">$0</div>
+      </div>
+      <div class="fund-progress">
+        <div class="row"><span>Fondo de Reserva</span><span id="fundLabel">$0 / $0</span></div>
+        <div class="bar"><span id="fundBar" style="width:0%"></span></div>
+        <div class="fund-edit">
+          <input type="number" id="fundCurrent" placeholder="Actual" title="Monto actual del fondo">
+          <input type="number" id="fundTarget" placeholder="Meta" title="Meta del fondo">
+        </div>
+      </div>
+    </div>
+    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><h2>Metas de inversión</h2></div>
+    <div class="goals" id="goals"></div>
+  </section>
+
+  </div>
+  <!-- ===== /TAB: INVERSIONES ===== -->
+
+  <!-- ===== TAB: REPORTES ===== -->
+  <div class="tab-view" id="tabReportes" data-tab="reportes" hidden>
+
+  <section class="reveal is-visible">
+    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div><h2>Reportes</h2></div>
+
+    <div class="report-tabs" id="reportSubTabs">
+      <button class="report-tab" data-report="semanal">Semanal</button>
+      <button class="report-tab is-active" data-report="mensual">Mensual</button>
+      <button class="report-tab" data-report="anual">Anual</button>
+    </div>
+
+    <div class="card chart-card" style="margin-bottom:16px;">
+      <div class="chart-head">
+        <div>
+          <h2 id="reportChartTitle" style="margin-bottom:2px;">Rendimiento</h2>
+          <div class="sub" id="reportChartSub" style="color:var(--ink-soft); font-size:12.5px;"></div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="reportChart"></canvas></div>
+      <div class="chart-highlights" id="chartHighlights"></div>
+    </div>
+
+    <div class="card">
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Mes</th><th>Ingresos</th><th>Gastos</th><th>Utilidad neta</th><th># Ventas</th><th>Margen</th></tr></thead>
+        <tbody id="monthlyTable"></tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  <!-- ===== /TAB: REPORTES ===== -->
+
+  <!-- ===== TAB: CONSEJOS ===== -->
+  <div class="tab-view" id="tabConsejos" data-tab="consejos" hidden>
+
+  <section class="reveal is-visible">
+    <div class="h2-row"><div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg></div><h2>Consejos para invertir</h2></div>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </section>
+
+  </div>
+  <!-- ===== /TAB: CONSEJOS ===== -->
+
   <footer>Panel de Finanzas · Sincronizado en la nube</footer>
+</div>
+
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-item is-active" data-tab-target="inicio">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+    <span>Inicio</span>
+  </button>
+  <button class="bn-item" data-tab-target="inversiones">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+    <span>Inversiones</span>
+  </button>
+  <button class="bn-item" data-tab-target="reportes">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+    <span>Reportes</span>
+  </button>
+  <button class="bn-item" data-tab-target="consejos">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg>
+    <span>Consejos</span>
+  </button>
+</nav>
+
+<!-- ===== Modal: gestionar catálogos (cuentas / categorías) ===== -->
+<div class="modal-backdrop" id="catalogModal">
+  <div class="card modal-sheet">
+    <div class="modal-head">
+      <h2 id="catalogModalTitle" style="margin:0;">Catálogo</h2>
+      <button class="modal-close" id="catalogModalClose">✕</button>
+    </div>
+    <div class="catalog-list" id="catalogModalList"></div>
+    <div class="catalog-add">
+      <input type="text" id="catalogModalInput" placeholder="Nueva opción…">
+      <button class="submit-btn" id="catalogModalAdd" style="width:auto; padding:10px 18px;">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Sheet: detalle de categoría ===== -->
+<div class="sheet-backdrop" id="detailBackdrop"></div>
+<div class="detail-sheet" id="detailPanel">
+  <div class="detail-sheet-handle"></div>
+  <div class="detail-sheet-head">
+    <div>
+      <h2 id="detailTitle" style="margin-bottom:2px;"></h2>
+      <div class="sub" id="detailSubtitle" style="color:var(--ink-soft); font-size:12.5px;"></div>
+    </div>
+    <button class="modal-close" id="detailClose">✕</button>
+  </div>
+  <div class="detail-stats" id="detailStats"></div>
+  <div class="detail-sheet-list" id="detailList"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script>
 const STORAGE_KEY = 'panelFinanzasState_v2';
-const CUENTAS = ['Cash','Mercado pago','Banamex','BBVA dam','Revolut','ARQ'];
 const COLORS = ['#d8c9a3','#6ec1c9','#6fbf73','#e3b567','#e2635f','#a78bd8','#c89b6c','#8fd0d6'];
 const TRASH_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6M14 11v6"/></svg>';
 
@@ -535,11 +728,36 @@ function defaultState(){
       {id:uid(), name:'Fondo de Reserva', target:20000, current:0}
     ],
     pagos: [],
-    colchon: 3500
+    colchon: 3500,
+    categoriasIngreso: ['Dream Studio','Noir','Cámaras','Otro'],
+    categoriasGasto: ['Comida','Transporte','Gastos Personales','Equipo','Tarjetas de Crédito','Ahorro','Marketing','Hunter','Otro']
   };
 }
 
-let state = load();
+/* Asegura que estados guardados antes de esta versión (o traídos de la nube)
+   tengan los catálogos de cuentas/fuentes/categorías, sin perder ninguna
+   fuente/categoría/cuenta que ya esté usada en movimientos existentes. */
+function migrateState(s){
+  if(!Array.isArray(s.categoriasIngreso)) s.categoriasIngreso = ['Dream Studio','Noir','Cámaras','Otro'];
+  if(!Array.isArray(s.categoriasGasto)) s.categoriasGasto = ['Comida','Transporte','Gastos Personales','Equipo','Tarjetas de Crédito','Ahorro','Marketing','Hunter','Otro'];
+  if(!Array.isArray(s.accounts)) s.accounts = [];
+  if(!Array.isArray(s.incomes)) s.incomes = [];
+  if(!Array.isArray(s.expenses)) s.expenses = [];
+  if(!Array.isArray(s.pagos)) s.pagos = [];
+  if(!Array.isArray(s.goals)) s.goals = [];
+
+  s.incomes.forEach(i=>{ if(i.fuente && !s.categoriasIngreso.includes(i.fuente)) s.categoriasIngreso.push(i.fuente); });
+  s.expenses.forEach(e=>{ if(e.categoria && !s.categoriasGasto.includes(e.categoria)) s.categoriasGasto.push(e.categoria); });
+
+  const accNames = s.accounts.map(a=>a.name);
+  const usedAccNames = new Set([...s.incomes.map(i=>i.cuenta), ...s.expenses.map(e=>e.cuenta)]);
+  usedAccNames.forEach(n=>{
+    if(n && !accNames.includes(n)){ s.accounts.push({name:n, start:0}); accNames.push(n); }
+  });
+  return s;
+}
+
+let state = migrateState(load());
 function load(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -575,6 +793,9 @@ let auth=null, db=null, currentUser=null, unsubscribeSnapshot=null, suppressNext
 
 function startApp(){
   populateCuentaSelects();
+  populateFuenteSelect();
+  populateCategoriaSelect();
+  renderTips();
   renderAll();
   initReveal();
   initSpotlight();
@@ -629,7 +850,7 @@ function attachCloudSync(uid){
   const ref = db.collection('panelFinanzas').doc(uid);
   ref.get().then(snap=>{
     if(snap.exists && snap.data().state){
-      state = snap.data().state;
+      state = migrateState(snap.data().state);
     } else {
       // Primera vez de este usuario en la nube: sube lo que ya haya (datos de ejemplo o locales).
       ref.set({state, updatedAt: Date.now()});
@@ -641,8 +862,11 @@ function attachCloudSync(uid){
     unsubscribeSnapshot = ref.onSnapshot(snap=>{
       if(suppressNextSnapshot){ suppressNextSnapshot=false; return; }
       if(snap.exists && snap.data().state){
-        state = snap.data().state;
+        state = migrateState(snap.data().state);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        populateCuentaSelects();
+        populateFuenteSelect();
+        populateCategoriaSelect();
         renderAll();
       }
     });
@@ -758,7 +982,7 @@ function renderInvestBanner(){
   if(document.activeElement!==ft) ft.value = goal.target;
 }
 
-function buildDonut(groups){
+function buildDonut(groups, type){
   const total = groups.reduce((a,g)=>a+g.val,0);
   if(total<=0) return {gradient:'#eee', legend:'<div class="empty-note">Aún no hay movimientos este periodo.</div>'};
   let acc=0, stops=[];
@@ -767,23 +991,72 @@ function buildDonut(groups){
     const color = COLORS[i%COLORS.length];
     stops.push(`${color} ${acc}% ${acc+pct}%`);
     acc += pct;
-    return `<div class="legend-item"><span class="legend-name"><span class="legend-dot" style="background:${color}"></span>${g.name}</span><span class="legend-val">${Math.round(pct)}% · ${fmt(g.val)}</span></div>`;
+    return `<div class="legend-item" tabindex="0" role="button" data-detail-type="${type}" data-detail-name="${g.name}"><span class="legend-name"><span class="legend-dot" style="background:${color}"></span>${g.name}</span><span class="legend-val">${Math.round(pct)}% · ${fmt(g.val)}</span></div>`;
   }).join('');
   return {gradient:`conic-gradient(${stops.join(',')})`, legend};
 }
 
 function renderDonuts(){
-  const fuentes = ['Dream Studio','Noir','Cámaras','Otro'];
-  const ingGroups = fuentes.map(f=>({name:f, val:sum(filteredIncomes().filter(i=>i.fuente===f))}));
-  const dIng = buildDonut(ingGroups);
+  const ingGroups = state.categoriasIngreso.map(f=>({name:f, val:sum(filteredIncomes().filter(i=>i.fuente===f))}));
+  const dIng = buildDonut(ingGroups, 'ingreso');
   document.getElementById('donutIngresos').style.background = dIng.gradient;
   document.getElementById('legendIngresos').innerHTML = dIng.legend;
 
-  const cats = Array.from(new Set(filteredExpenses().map(e=>e.categoria)));
-  const gasGroups = cats.map(c=>({name:c, val:sum(filteredExpenses().filter(e=>e.categoria===c))}));
-  const dGas = buildDonut(gasGroups.sort((a,b)=>b.val-a.val));
+  const cats = state.categoriasGasto.filter(c=>filteredExpenses().some(e=>e.categoria===c));
+  const gasGroups = cats.map(c=>({name:c, val:sum(filteredExpenses().filter(e=>e.categoria===c))})).sort((a,b)=>b.val-a.val);
+  const dGas = buildDonut(gasGroups, 'gasto');
   document.getElementById('donutGastos').style.background = dGas.gradient;
   document.getElementById('legendGastos').innerHTML = dGas.legend;
+
+  attachLegendClicks('legendIngresos');
+  attachLegendClicks('legendGastos');
+}
+
+function attachLegendClicks(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.querySelectorAll('.legend-item[data-detail-name]').forEach(item=>{
+    item.addEventListener('click', ()=>openCategoryDetail(item.dataset.detailType, item.dataset.detailName));
+    item.addEventListener('keydown', e=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openCategoryDetail(item.dataset.detailType, item.dataset.detailName); }
+    });
+  });
+}
+
+function openCategoryDetail(type, name){
+  const isIn = type==='ingreso';
+  const list = isIn ? filteredIncomes().filter(i=>i.fuente===name) : filteredExpenses().filter(e=>e.categoria===name);
+  const totalPeriod = isIn ? sum(filteredIncomes()) : sum(filteredExpenses());
+  const total = sum(list);
+  const pct = totalPeriod>0 ? Math.round((total/totalPeriod)*100) : 0;
+  const count = list.length;
+  const avg = count>0 ? total/count : 0;
+
+  document.getElementById('detailTitle').textContent = name;
+  document.getElementById('detailSubtitle').textContent = isIn ? 'Fuente de ingreso' : 'Categoría de gasto';
+  document.getElementById('detailStats').innerHTML = `
+    <div class="detail-stat"><span class="dlabel">Total</span><span class="dval">${fmt(total)}</span></div>
+    <div class="detail-stat"><span class="dlabel">% del periodo</span><span class="dval">${pct}%</span></div>
+    <div class="detail-stat"><span class="dlabel"># Movs.</span><span class="dval">${count}</span></div>
+    <div class="detail-stat"><span class="dlabel">Promedio</span><span class="dval">${fmt(avg)}</span></div>
+  `;
+
+  const sorted = [...list].sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  document.getElementById('detailList').innerHTML = sorted.map(it=>`
+    <div class="recent-item">
+      <div class="recent-left">
+        <span class="c">${it.concepto}</span>
+        <span class="meta">${it.fecha} · ${it.cuenta}</span>
+      </div>
+      <span class="recent-amt ${isIn?'in':'out'}">${isIn?'+':'-'}${fmt(it.monto)}</span>
+    </div>`).join('') || '<div class="empty-note">Sin movimientos en este periodo.</div>';
+
+  document.getElementById('detailBackdrop').classList.add('is-open');
+  document.getElementById('detailPanel').classList.add('is-open');
+}
+function closeCategoryDetail(){
+  document.getElementById('detailBackdrop').classList.remove('is-open');
+  document.getElementById('detailPanel').classList.remove('is-open');
 }
 
 function renderGoals(){
@@ -829,17 +1102,42 @@ function accountBalance(name){
   return start + inSum - outSum;
 }
 
+function accountHasMovements(name){
+  return state.incomes.some(i=>i.cuenta===name) || state.expenses.some(e=>e.cuenta===name);
+}
+function addAccount(name){
+  name = (name||'').trim();
+  if(!name) return;
+  if(state.accounts.some(a=>a.name.toLowerCase()===name.toLowerCase())){ alert('Esa cuenta ya existe.'); return; }
+  state.accounts.push({name, start:0});
+  save(); renderAccounts(); populateCuentaSelects();
+}
+function deleteAccount(name){
+  if(accountHasMovements(name)){
+    alert('No puedes eliminar "'+name+'" porque tiene movimientos registrados. Elimina o reasigna esos movimientos primero.');
+    return;
+  }
+  if(!confirm('¿Eliminar la cuenta "'+name+'"?')) return;
+  state.accounts = state.accounts.filter(a=>a.name!==name);
+  save(); renderAccounts(); populateCuentaSelects();
+}
+
 function renderAccounts(){
   const wrap = document.getElementById('accounts');
   wrap.innerHTML = state.accounts.map(a=>{
     const bal = accountBalance(a.name);
+    const used = accountHasMovements(a.name);
     return `
     <div class="card account-card">
-      <div class="name">${a.name}</div>
+      <div class="account-card-top">
+        <div class="name">${a.name}</div>
+        <button class="del-btn" data-del-acc="${a.name}" title="${used?'No se puede eliminar: tiene movimientos':'Eliminar cuenta'}" style="${used?'opacity:.35;cursor:not-allowed;':''}">${TRASH_SVG}</button>
+      </div>
       <div class="bal ${bal<0?'neg':''}">${fmt(bal)}</div>
       <div class="start-edit">Saldo inicial <input type="number" value="${a.start}" data-acc="${a.name}"></div>
     </div>`;
-  }).join('');
+  }).join('') + `<div class="card add-card" id="addAccountCard"><div class="add-card-inner">+ Nueva cuenta</div></div>`;
+
   wrap.querySelectorAll('input[data-acc]').forEach(inp=>{
     inp.addEventListener('change', ()=>{
       const a = state.accounts.find(x=>x.name===inp.dataset.acc);
@@ -847,6 +1145,15 @@ function renderAccounts(){
       save(); renderAccounts();
     });
   });
+  wrap.querySelectorAll('button[data-del-acc]').forEach(btn=>{
+    btn.addEventListener('click', ()=> deleteAccount(btn.dataset.delAcc));
+  });
+  const addCard = document.getElementById('addAccountCard');
+  if(addCard) addCard.addEventListener('click', ()=>{
+    const name = prompt('Nombre de la nueva cuenta:');
+    if(name) addAccount(name);
+  });
+
   const total = state.accounts.reduce((s,a)=>s+accountBalance(a.name),0);
   document.getElementById('accountsTotal').innerHTML = `Total en todas las cuentas: <b>${fmt(total)}</b>`;
 }
@@ -923,9 +1230,287 @@ function renderPagos(){
 }
 
 function populateCuentaSelects(){
-  const opts = CUENTAS.map(c=>`<option>${c}</option>`).join('');
-  document.getElementById('inCuenta').innerHTML = opts;
-  document.getElementById('exCuenta').innerHTML = opts;
+  const opts = state.accounts.map(a=>`<option>${a.name}</option>`).join('');
+  const inC = document.getElementById('inCuenta'), exC = document.getElementById('exCuenta');
+  const prevIn = inC.value, prevEx = exC.value;
+  inC.innerHTML = opts; exC.innerHTML = opts;
+  if(state.accounts.some(a=>a.name===prevIn)) inC.value = prevIn;
+  if(state.accounts.some(a=>a.name===prevEx)) exC.value = prevEx;
+}
+function populateFuenteSelect(){
+  const sel = document.getElementById('inFuente');
+  const prev = sel.value;
+  sel.innerHTML = state.categoriasIngreso.map(c=>`<option>${c}</option>`).join('');
+  if(state.categoriasIngreso.includes(prev)) sel.value = prev;
+}
+function populateCategoriaSelect(){
+  const sel = document.getElementById('exCategoria');
+  const prev = sel.value;
+  sel.innerHTML = state.categoriasGasto.map(c=>`<option>${c}</option>`).join('');
+  if(state.categoriasGasto.includes(prev)) sel.value = prev;
+}
+
+/* ===== Catálogos (fuentes de ingreso / categorías de gasto) ===== */
+let catalogKind = null;
+function catalogItems(){
+  if(catalogKind==='ingreso') return state.categoriasIngreso;
+  if(catalogKind==='gasto') return state.categoriasGasto;
+  return [];
+}
+function catalogIsUsed(name){
+  if(catalogKind==='ingreso') return state.incomes.some(i=>i.fuente===name);
+  if(catalogKind==='gasto') return state.expenses.some(e=>e.categoria===name);
+  return false;
+}
+function catalogTitle(){
+  return catalogKind==='ingreso' ? 'Fuentes de ingreso' : 'Categorías de gasto';
+}
+function renderCatalogList(){
+  const list = document.getElementById('catalogModalList');
+  const items = catalogItems();
+  list.innerHTML = items.map(name=>{
+    const used = catalogIsUsed(name);
+    return `<div class="catalog-item">
+      <span>${name}</span>
+      <button class="del-btn" data-catalog-del="${name}" title="${used?'No se puede eliminar: tiene movimientos':'Eliminar'}" style="${used?'opacity:.35;cursor:not-allowed;':''}">${TRASH_SVG}</button>
+    </div>`;
+  }).join('') || '<div class="empty-note">Sin opciones aún.</div>';
+  list.querySelectorAll('button[data-catalog-del]').forEach(btn=>{
+    btn.addEventListener('click', ()=>catalogDelete(btn.dataset.catalogDel));
+  });
+}
+function openCatalog(kind){
+  catalogKind = kind;
+  document.getElementById('catalogModalTitle').textContent = catalogTitle();
+  document.getElementById('catalogModalInput').value = '';
+  renderCatalogList();
+  document.getElementById('catalogModal').classList.add('is-open');
+}
+function closeCatalogModal(){
+  document.getElementById('catalogModal').classList.remove('is-open');
+  catalogKind = null;
+}
+function catalogAdd(){
+  const input = document.getElementById('catalogModalInput');
+  const name = input.value.trim();
+  if(!name) return;
+  const items = catalogItems();
+  if(items.some(x=>x.toLowerCase()===name.toLowerCase())){ alert('Esa opción ya existe.'); return; }
+  items.push(name);
+  save();
+  renderCatalogList();
+  input.value='';
+  if(catalogKind==='ingreso') populateFuenteSelect();
+  if(catalogKind==='gasto') populateCategoriaSelect();
+  renderDonuts();
+}
+function catalogDelete(name){
+  if(catalogIsUsed(name)){
+    alert('No puedes eliminar "'+name+'" porque tiene movimientos asociados. Elimina o reclasifica esos movimientos primero.');
+    return;
+  }
+  if(!confirm('¿Eliminar "'+name+'"?')) return;
+  if(catalogKind==='ingreso') state.categoriasIngreso = state.categoriasIngreso.filter(x=>x!==name);
+  if(catalogKind==='gasto') state.categoriasGasto = state.categoriasGasto.filter(x=>x!==name);
+  save();
+  renderCatalogList();
+  if(catalogKind==='ingreso') populateFuenteSelect();
+  if(catalogKind==='gasto') populateCategoriaSelect();
+  renderDonuts();
+}
+
+/* ===== Navegación por pestañas (bottom nav estilo Instagram) ===== */
+function switchTab(name){
+  document.querySelectorAll('.tab-view').forEach(tv=>{
+    if(tv.dataset.tab===name){
+      tv.hidden = false;
+      tv.classList.remove('tab-fade');
+      void tv.offsetWidth;
+      tv.classList.add('tab-fade');
+    } else {
+      tv.hidden = true;
+    }
+  });
+  document.querySelectorAll('.bn-item').forEach(btn=>{
+    btn.classList.toggle('is-active', btn.dataset.tabTarget===name);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(name==='reportes') renderReportChart();
+}
+
+/* ===== Reportes: series de datos + gráfica Chart.js ===== */
+let currentReportView = 'mensual';
+let reportChartInstance = null;
+
+function daysInMonth(y,m){ return new Date(y, m, 0).getDate(); }
+
+function currentReportMonthKey(){
+  if(selectedMonth && selectedMonth!=='__all__') return selectedMonth;
+  return monthKey(new Date().toISOString());
+}
+
+function buildDailySeries(mKey){
+  const [y,m] = mKey.split('-').map(Number);
+  const nDays = daysInMonth(y,m);
+  const labels=[], ingresos=[], gastos=[], utilidad=[];
+  for(let d=1; d<=nDays; d++){
+    const dateStr = mKey+'-'+String(d).padStart(2,'0');
+    const ing = sum(state.incomes.filter(i=>i.fecha===dateStr));
+    const gas = sum(state.expenses.filter(e=>e.fecha===dateStr));
+    labels.push(String(d));
+    ingresos.push(ing); gastos.push(gas); utilidad.push(ing-gas);
+  }
+  return {labels, ingresos, gastos, utilidad};
+}
+
+function buildWeeklySeries(){
+  const dayNames=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const labels=[], ingresos=[], gastos=[], utilidad=[];
+  const today = new Date();
+  for(let i=6; i>=0; i--){
+    const d = new Date(today);
+    d.setDate(d.getDate()-i);
+    const dateStr = d.toISOString().slice(0,10);
+    const ing = sum(state.incomes.filter(x=>x.fecha===dateStr));
+    const gas = sum(state.expenses.filter(x=>x.fecha===dateStr));
+    labels.push(dayNames[d.getDay()]+' '+d.getDate());
+    ingresos.push(ing); gastos.push(gas); utilidad.push(ing-gas);
+  }
+  return {labels, ingresos, gastos, utilidad};
+}
+
+function buildAnnualSeries(year){
+  const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const labels=[], ingresos=[], gastos=[], utilidad=[];
+  for(let m=1; m<=12; m++){
+    const mk = year+'-'+String(m).padStart(2,'0');
+    const ing = sum(state.incomes.filter(i=>monthKey(i.fecha)===mk));
+    const gas = sum(state.expenses.filter(e=>monthKey(e.fecha)===mk));
+    labels.push(names[m-1]);
+    ingresos.push(ing); gastos.push(gas); utilidad.push(ing-gas);
+  }
+  return {labels, ingresos, gastos, utilidad};
+}
+
+function cssVar(name, fallback){
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
+
+function renderReportChart(){
+  const canvas = document.getElementById('reportChart');
+  if(!canvas || typeof Chart==='undefined') return;
+
+  let series, title, sub, isBar=false;
+  if(currentReportView==='semanal'){
+    series = buildWeeklySeries();
+    title = 'Rendimiento semanal';
+    sub = 'Últimos 7 días · utilidad diaria (ingresos − gastos)';
+  } else if(currentReportView==='anual'){
+    const y = currentReportMonthKey().split('-')[0];
+    series = buildAnnualSeries(y);
+    title = 'Rendimiento anual';
+    sub = y + ' · utilidad mensual (ingresos − gastos)';
+    isBar = true;
+  } else {
+    const mk = currentReportMonthKey();
+    series = buildDailySeries(mk);
+    title = 'Rendimiento mensual';
+    sub = monthLabel(mk) + ' · utilidad diaria (ingresos − gastos)';
+  }
+  document.getElementById('reportChartTitle').textContent = title;
+  document.getElementById('reportChartSub').textContent = sub;
+
+  const accent = cssVar('--accent','#d8c9a3');
+  const green = cssVar('--green','#6fbf73');
+  const red = cssVar('--red','#e2635f');
+  const ink = cssVar('--ink','#f1ece1');
+  const inkSoft = cssVar('--ink-soft','#a39d92');
+  const gridLine = 'rgba(241,236,225,.08)';
+  const pointColors = series.utilidad.map(v=> v>=0 ? green : red);
+
+  const data = {
+    labels: series.labels,
+    datasets: [{
+      label:'Utilidad',
+      data: series.utilidad,
+      borderColor: accent,
+      backgroundColor: isBar ? series.utilidad.map(v=> v>=0 ? 'rgba(111,191,115,.55)' : 'rgba(226,99,95,.55)') : 'rgba(216,201,163,.14)',
+      pointBackgroundColor: pointColors,
+      pointBorderColor: pointColors,
+      pointRadius: isBar ? 0 : 3,
+      pointHoverRadius: 6,
+      borderWidth: 2,
+      tension: .35,
+      fill: !isBar,
+      borderRadius: isBar ? 6 : 0,
+      maxBarThickness: 34
+    }]
+  };
+
+  const config = {
+    type: isBar ? 'bar' : 'line',
+    data,
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      animation:{ duration:650, easing:'easeOutQuart' },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'#14161a', borderColor:gridLine, borderWidth:1, titleColor:ink, bodyColor:inkSoft,
+          padding:10, cornerRadius:10, displayColors:false,
+          callbacks:{ label:(ctx)=> 'Utilidad: '+fmt(ctx.parsed.y) }
+        }
+      },
+      scales:{
+        x:{ grid:{ display:false }, ticks:{ color:inkSoft, font:{ size:11 }, maxRotation:0, autoSkip:true } },
+        y:{ grid:{ color:gridLine }, ticks:{ color:inkSoft, font:{ size:11 }, callback:(v)=>fmt(v) } }
+      }
+    }
+  };
+
+  if(reportChartInstance) reportChartInstance.destroy();
+  reportChartInstance = new Chart(canvas, config);
+
+  let bestIdx=0, worstIdx=0;
+  series.utilidad.forEach((v,i)=>{
+    if(v>series.utilidad[bestIdx]) bestIdx=i;
+    if(v<series.utilidad[worstIdx]) worstIdx=i;
+  });
+  const unit = currentReportView==='anual' ? 'mes' : 'día';
+  document.getElementById('chartHighlights').innerHTML = `
+    <div class="chart-hl good"><span>Mejor ${unit}</span><b>${series.labels[bestIdx]}</b><span class="mono-num">${fmt(series.utilidad[bestIdx])}</span></div>
+    <div class="chart-hl bad"><span>Peor ${unit}</span><b>${series.labels[worstIdx]}</b><span class="mono-num">${fmt(series.utilidad[worstIdx])}</span></div>
+  `;
+}
+
+/* ===== Consejos para invertir ===== */
+const TIP_ICONS = {
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/></svg>',
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+  target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>'
+};
+const INVEST_TIPS = [
+  {icon:'shield', title:'Arma tu fondo de reserva primero', text:'Antes de invertir, ten guardado un colchón de 3 a 6 meses de tus gastos fijos. Así un imprevisto no te obliga a vender tus inversiones en mal momento.'},
+  {icon:'grid', title:'Diversifica siempre', text:'No pongas todo tu dinero en un solo lugar. Repartir entre distintos instrumentos reduce el riesgo si uno de ellos baja de valor.'},
+  {icon:'trend', title:'Deja trabajar al interés compuesto', text:'Entre más tiempo dejes invertido tu dinero, más rápido crece. Empezar antes —aunque sea con poco— vale más que invertir mucho después.'},
+  {icon:'calendar', title:'Invierte de forma constante', text:'Aportar una cantidad fija cada mes, en lugar de intentar "adivinar" el mejor momento, suaviza el riesgo y crea el hábito.'},
+  {icon:'card', title:'Paga primero las deudas caras', text:'Si tienes deudas de tarjeta de crédito con intereses altos, liquidarlas suele ser la "inversión" con mejor retorno garantizado.'},
+  {icon:'target', title:'Define metas claras', text:'Ponle nombre y fecha a cada meta de inversión. Es más fácil mantener la disciplina cuando sabes exactamente para qué estás ahorrando.'}
+];
+function renderTips(){
+  const wrap = document.getElementById('tipsGrid');
+  if(!wrap) return;
+  wrap.innerHTML = INVEST_TIPS.map(t=>`
+    <div class="card tip-card reveal is-visible">
+      <div class="icon-badge">${TIP_ICONS[t.icon]||''}</div>
+      <h3>${t.title}</h3>
+      <p>${t.text}</p>
+    </div>`).join('');
 }
 
 function renderAll(){
@@ -997,6 +1582,38 @@ document.getElementById('fundCurrent').addEventListener('change', e=>{
 document.getElementById('fundTarget').addEventListener('change', e=>{
   state.goals[0].target = parseFloat(e.target.value)||0;
   save(); renderInvestBanner(); renderGoals();
+});
+
+/* ===== Wiring: catálogos (gestión de fuentes/categorías) ===== */
+document.querySelectorAll('[data-open-catalog]').forEach(btn=>{
+  btn.addEventListener('click', ()=>openCatalog(btn.dataset.openCatalog));
+});
+document.getElementById('catalogModalClose').addEventListener('click', closeCatalogModal);
+document.getElementById('catalogModal').addEventListener('click', e=>{
+  if(e.target.id==='catalogModal') closeCatalogModal();
+});
+document.getElementById('catalogModalAdd').addEventListener('click', catalogAdd);
+document.getElementById('catalogModalInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter'){ e.preventDefault(); catalogAdd(); }
+});
+
+/* ===== Wiring: sheet de detalle de categoría ===== */
+document.getElementById('detailClose').addEventListener('click', closeCategoryDetail);
+document.getElementById('detailBackdrop').addEventListener('click', closeCategoryDetail);
+
+/* ===== Wiring: navegación inferior (tabs) ===== */
+document.querySelectorAll('.bn-item').forEach(btn=>{
+  btn.addEventListener('click', ()=>switchTab(btn.dataset.tabTarget));
+});
+
+/* ===== Wiring: sub-tabs de Reportes ===== */
+document.querySelectorAll('.report-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.report-tab').forEach(b=>b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    currentReportView = btn.dataset.report;
+    renderReportChart();
+  });
 });
 
 function initReveal(){
